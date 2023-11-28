@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -27,7 +28,7 @@ public class UserServiceTest {
     private UserRepository repository;
 
     @Test
-    @DisplayName("#findById >When yhe id is null > Throw an exception")
+    @DisplayName("#findById >When the id is null > Throw an exception")
     void findByIdWhenIsNullThrowAnException(){
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 service.findById(null));
@@ -56,6 +57,31 @@ public class UserServiceTest {
         Assertions.assertThrows(UserNotFoundException.class, () ->
                 service.findById(2)
         );
+    }
+
+    @Test
+    @DisplayName("#getAllUsers > When There Are No Users > return a empty list")
+    void getAllUsersWhenThereAreNoUsersReturnAEmptyList(){
+        List<User> list = service.getAllUsers();
+        Assertions.assertTrue(list.isEmpty());
+    }
+
+    @Test
+    @DisplayName("#getAllUser > When there are Users > return the user")
+    void getAllUserWhenThereAreUsersReturnTheUser() {
+        when(service.getAllUsers()).thenReturn(List.of(User.builder()
+                        .id(1)
+                        .name("Ryan")
+                        .username("Ryan123")
+                .build()));
+        List<User> list = service.getAllUsers();
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(1, list.get(0).getId()),
+                () -> Assertions.assertEquals("Ryan", list.get(0).getName()),
+                () -> Assertions.assertEquals("Ryan123", list.get(0).getUsername())
+
+        );
+
     }
 
 

@@ -40,8 +40,10 @@ public class UserServiceIntegrationTest {
     @DisplayName("#findById >When the id is not null > When no user is found > Thown an exception")
     void findByIdWhentheIdIsNotNullWhenNoUserIsFoundThownAnException(){
         Assertions.assertThrows(UserNotFoundException.class, () ->
-                service.findById(11)
+                service.findById(100)
         );
     }
+
+
 
 }
