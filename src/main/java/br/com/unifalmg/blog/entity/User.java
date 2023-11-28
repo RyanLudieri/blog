@@ -30,6 +30,9 @@ public class User implements Serializable {
 
     private String website;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 }
