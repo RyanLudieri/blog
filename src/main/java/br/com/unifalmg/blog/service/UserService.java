@@ -32,9 +32,12 @@ public class UserService {
         );
     }
 
-    public User add(User user){
-        if(Objects.isNull(user) || Objects.isNull(user.getName()) ){
-            throw new InvalidUserException("Invalid User");
+
+
+    public User add(User user) {
+        if(Objects.isNull(user) || Objects.isNull(user.getName())
+                || Objects.isNull(user.getUsername()) || Objects.isNull(user.getEmail())|| user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getName().isEmpty()) {
+            throw new InvalidUserException("Usuario incorreto!");
         }
         return repository.save(user);
     }
@@ -54,5 +57,11 @@ public class UserService {
         existingUser.setWebsite(newUser.getWebsite());
         return repository.save(existingUser);
     }
+
+
+
+
+
+
 
 }
