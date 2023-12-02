@@ -24,7 +24,7 @@ public class UserService {
 
     public User findById(Integer id){
         if(Objects.isNull(id)){
-            throw new IllegalArgumentException("Idnull when fetching for an user.");
+            throw new IllegalArgumentException("Id null when fetching for an user.");
         }
         return repository.findById(id).orElseThrow(() ->
              new UserNotFoundException(
@@ -37,6 +37,22 @@ public class UserService {
             throw new InvalidUserException("Invalid User");
         }
         return repository.save(user);
+    }
+
+    public void deleteById(Integer id){
+        repository.deleteById(id);
+    }
+
+    public User updateUser(Integer id, User newUser){
+        User existingUser = repository.findById(id).
+                orElseThrow(() -> new UserNotFoundException("Usuario não encontrado!"));
+
+        existingUser.setName(newUser.getName());
+        existingUser.setUsername(newUser.getUsername());
+        existingUser.setEmail(newUser.getEmail());
+        existingUser.setPhone(newUser.getPhone());
+        existingUser.setWebsite(newUser.getWebsite());
+        return repository.save(existingUser);
     }
 
 }

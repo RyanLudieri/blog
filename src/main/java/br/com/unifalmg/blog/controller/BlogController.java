@@ -7,9 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.model.IModel;
 
 import java.util.List;
 
@@ -40,8 +39,33 @@ public class BlogController {
     @PostMapping("/user")
     public String newUser(@ModelAttribute("user") User user){
         log.info("Entrou no cadastro de usuário");
-        service.add(user);
-        return "newuser";
+        User addedUser = service.add(user);
+        return "redirect:/user/" + addedUser.getId();
+    }
+
+
+    @GetMapping("user/{id}")
+    public String showUser(@PathVariable("id") Integer id,
+                           Model model){
+        User user = service.findById(id);
+        model.addAttribute("user", user);
+        return "showuser";
+    }
+
+    @GetMapping("edituser/{id}")
+    public String editUser(@PathVariable("id") Integer id,
+                           Model model){
+        User user = service.findById(id);
+        model.addAttribute("user", user);
+        return "edituser";
+    }
+
+    @PostMapping ("/edituser/{id}")
+    public String editUser(@PathVariable("id") Integer id, @ModelAttribute User modifiedUser){
+        log.info("Entrou na edição de usuario!");
+        User updatedUser = service.updateUser(id,modifiedUser);
+        return "redirect:/user/" + updatedUser.getId();
+
     }
 
 }

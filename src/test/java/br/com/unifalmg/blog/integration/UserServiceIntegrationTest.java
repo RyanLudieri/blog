@@ -20,7 +20,7 @@ public class UserServiceIntegrationTest {
     private UserService service;
 
     @Test
-    @DisplayName("#findById >When yhe id is null > Throw an exception")
+    @DisplayName("#findById >When the id is null > Throw an exception")
     void findByIdWhenIsNullThrowAnException(){
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 service.findById(null));
@@ -40,7 +40,7 @@ public class UserServiceIntegrationTest {
     @DisplayName("#findById >When the id is not null > When no user is found > Thown an exception")
     void findByIdWhentheIdIsNotNullWhenNoUserIsFoundThownAnException(){
         Assertions.assertThrows(UserNotFoundException.class, () ->
-                service.findById(11)
+                service.findById(12)
         );
     }
 
